@@ -14,6 +14,8 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/server.js ./
 COPY --from=builder /app/routes ./routes
 COPY --from=builder /app/models ./models
+COPY --from=builder /app/controllers ./controllers
+COPY --from=builder /app/utils ./utils
 
 USER node
 
