@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Calculator, ArrowRight, TrendingDown, MousePointer2 } from 'lucide-react';
 import { calculateSavingsData } from '../utils/costEngine';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { X, Info } from 'lucide-react';
 
 const ViewTipModal = ({ tip, isOpen, onClose }: any) => {
