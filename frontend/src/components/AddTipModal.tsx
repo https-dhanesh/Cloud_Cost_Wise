@@ -14,7 +14,7 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
     serviceName: '',
     category: 'Compute',
     description: '',
-    calculationType: 'TIME', // TIME, VOLUME, HYBRID
+    calculationType: 'TIME',
     unitLabel: 'Hrs/Mo',
     oldFixedRate: 0,
     newFixedRate: 0,
@@ -30,7 +30,6 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
       await API.post('/tips', formData);
       onSuccess();
       onClose();
-      // Reset state for next entry
       setFormData({
         title: '', serviceName: '', category: 'Compute', description: '',
         calculationType: 'TIME', unitLabel: 'Hrs/Mo',
@@ -41,15 +40,13 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
     }
   };
 
-  // Helper logic for conditional rendering
   const showFixed = formData.calculationType === 'TIME' || formData.calculationType === 'HYBRID';
   const showVariable = formData.calculationType === 'VOLUME' || formData.calculationType === 'HYBRID';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="bg-slate-800 border border-slate-700 w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in duration-200 flex flex-col max-h-[90vh]">
-        
-        {/* Header */}
+
         <div className="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <PlusCircle className="text-blue-500" size={24} /> Register Optimization Pattern
@@ -59,10 +56,8 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
           </button>
         </div>
 
-        {/* Scrollable Form */}
         <form onSubmit={handleSubmit} className="p-8 space-y-6 overflow-y-auto custom-scrollbar">
-          
-          {/* Tip Title */}
+
           <div>
             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Tip Title</label>
             <input 
@@ -73,7 +68,6 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
             />
           </div>
 
-          {/* Category & Target Service */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Category</label>
@@ -98,7 +92,6 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
             </div>
           </div>
 
-          {/* Pricing Architecture Engine */}
           <div className="bg-blue-600/5 p-5 rounded-2xl border border-blue-600/20 space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -123,7 +116,6 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
               </div>
             </div>
 
-            {/* Conditional Rates Grid */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-5">
               {showFixed && (
                 <>
@@ -156,7 +148,6 @@ const AddTipModal = ({ isOpen, onClose, onSuccess }: AddTipModalProps) => {
             </div>
           </div>
 
-          {/* Logic Description */}
           <div>
             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Optimization Logic</label>
             <textarea 

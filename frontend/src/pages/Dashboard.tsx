@@ -34,8 +34,7 @@ const Dashboard = () => {
   const [tips, setTips] = useState<Tip[]>([]);
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [viewingTip, setViewingTip] = useState<Tip | null>(null);
-  
-  // State for Filtering & Searching
+
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const categories = ['All', 'Compute', 'Storage', 'Networking', 'Database'];
@@ -70,9 +69,6 @@ const Dashboard = () => {
     }
   };
 
-  // MULTI-LAYER FILTERING LOGIC
-  // 1. Filter by Category
-  // 2. Filter by Search Query (Checking title and service name)
   const filteredTips = tips.filter(tip => {
     const matchesCategory = activeCategory === 'All' || tip.category === activeCategory;
     const matchesSearch = tip.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -82,8 +78,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 p-6 md:p-10 selection:bg-blue-500/30">
-      
-      {/* HEADER */}
+
       <header className="flex justify-between items-center mb-10">
         <div className="flex items-center gap-4">
           <div className="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-900/40">
@@ -107,7 +102,6 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* SYSTEM INSIGHTS */}
       <div className="flex flex-wrap gap-4 mb-8">
         <div className="bg-slate-800/40 border border-slate-700/50 px-4 py-3 rounded-2xl flex items-center gap-3">
           <div className="bg-blue-400/10 p-2 rounded-lg text-blue-400">
@@ -120,18 +114,15 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* SMART CALCULATOR ENGINE */}
       <SavingsCalculator activeTip={selectedTip} />
 
-      {/* SEARCH & FILTER CONTROLS */}
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8 border-b border-slate-800 pb-8">
         <div className="space-y-4 flex-1 max-w-2xl">
           <div className="flex items-center gap-2">
             <LayoutDashboard className="text-blue-500" size={20} />
             <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Optimization Library</h2>
           </div>
-          
-          {/* SEARCH BAR USING FILTER ICON */}
+
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-500 transition-colors">
               <Filter size={18} />
@@ -145,8 +136,7 @@ const Dashboard = () => {
             />
           </div>
         </div>
-        
-        {/* CATEGORY PILLS */}
+
         <div className="flex flex-wrap gap-2 self-end">
           {categories.map((cat) => (
             <button
@@ -164,7 +154,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* GRID SECTION */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 opacity-50">
            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -260,7 +249,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* MODAL LAYER */}
       <AddTipModal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)} 
