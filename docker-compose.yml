@@ -15,6 +15,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongodb:27017/cloudcost_wise
       - NODE_ENV=development
+      - JWT_SECRET=HUHAUSHAUQWASJNADDSDWDWFSSFSA
     depends_on:
       - mongodb
 
