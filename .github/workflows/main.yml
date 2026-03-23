@@ -14,11 +14,13 @@ jobs:
           - 27017:27017
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Backend Test & Audit
         env:
@@ -28,13 +30,13 @@ jobs:
           cd backend
           npm ci
           npm test
-          npm audit --audit-level=high # SCA Gate: Finds vulnerable libraries
+          npm audit --audit-level=high
 
       - name: Frontend Test & Audit
         run: |
           cd frontend
           npm ci
-          npm test 
+          npm test
           npm audit --audit-level=high
 
   build-and-push:
