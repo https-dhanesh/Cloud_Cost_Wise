@@ -1,3 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: cloudcost
+data:
+  default.conf: |
+    server {
+        listen 8080;
+        server_name localhost;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /api {
+            proxy_pass http://backend:5000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +44,7 @@ spec:
       - name: frontend
         image: dhaneshshingade/cloudcost-frontend:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources:
           requests:
             cpu: 50m
@@ -40,6 +67,8 @@ spec:
           mountPath: /var/run
         - name: cache-volume
           mountPath: /var/cache/nginx
+        - name: conf-volume 
+          mountPath: /etc/nginx/conf.d
       volumes:
       - name: tmp-volume
         emptyDir: {}
@@ -47,17 +76,23 @@ spec:
         emptyDir: {}
       - name: cache-volume
         emptyDir: {}
+      - name: conf-volume 
+        configMap:
+          name: frontend-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
   namespace: cloudcost
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "8080"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: "HTTP"
 spec:
   type: LoadBalancer
   selector:
     app: frontend
   ports:
-  - port: 80
-    targetPort: 80
-    nodePort: 30080
+  - port: 80             
+    targetPort: 8080
