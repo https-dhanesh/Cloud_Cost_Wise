@@ -89,6 +89,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "8080"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: "HTTP"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   type: LoadBalancer
   selector:
